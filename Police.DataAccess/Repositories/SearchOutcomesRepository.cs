@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,14 +19,13 @@ namespace Police.DataAccess.Repositories
             this.context = context;
         }
 
-        public int GetTotalItems()
+        public search_outcomes LookupCrimes()
         {
-            using (var dbCon = this.context.GetDbContext())
+            var context = this.context.GetDbContext();
+
+            using (context)
             {
-                var query = (from d in dbCon.search_outcomes
-                             orderby d.id
-                             where d.lat > 52.629 && d.lat < 52.63 && d.year == 2019
-                             select d).Count();
+                var query = context.search_outcomes.Where((s) => s.lat > 52.629 && s.lat < 52.63 && s.year == 2019).FirstOrDefault();
 
                 return query;
             }

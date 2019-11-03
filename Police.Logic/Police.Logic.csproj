@@ -66,6 +66,10 @@
       <Project>{80732f6e-e459-436a-9173-14a386a11a00}</Project>
       <Name>Police.DataAccess</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Police.Model\Police.Model.csproj">
+      <Project>{246baa74-d4e0-40ae-b2fa-035cbc6e0321}</Project>
+      <Name>Police.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

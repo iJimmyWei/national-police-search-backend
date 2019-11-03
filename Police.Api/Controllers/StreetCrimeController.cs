@@ -28,12 +28,11 @@ namespace Police.Api.Controllers
         [HttpGet]
         public StreetCrimeResponse Get()
         {
-            var shit = _streetCrimeService.GetStreetCrimes();
-            //var shit2 = _streetCrimeService.GetStreetCrimes();
+            var crime = _streetCrimeService.GetStreetCrimes();
 
             StreetCrimeResponse test = new StreetCrimeResponse
             {
-                count = shit
+                count = crime.id
             };
 
             return test;

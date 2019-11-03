@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Police.DataAccess.Repositories;
+using Police.Model;
 
 namespace Police.Logic.Services
 {
@@ -18,11 +19,11 @@ namespace Police.Logic.Services
             this._searchOutcomesRepository = searchOutcomesRepository;
         }
 
-        public int GetStreetCrimes()
+        public search_outcomes GetStreetCrimes()
         {
-            var shit = _searchOutcomesRepository.GetTotalItems();
+            var crimes = _searchOutcomesRepository.LookupCrimes();
 
-            return shit;
+            return crimes;
         }
     }
 }
