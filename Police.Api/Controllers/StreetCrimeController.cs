@@ -26,16 +26,11 @@ namespace Police.Api.Controllers
         }
 
         [HttpGet]
-        public StreetCrimeResponse Get()
+        public List<StreetCrimeResponse> Get()
         {
             var crime = _streetCrimeService.GetStreetCrimes();
 
-            StreetCrimeResponse test = new StreetCrimeResponse
-            {
-                count = crime.id
-            };
-
-            return test;
+            return crime;
         }
     }
 }

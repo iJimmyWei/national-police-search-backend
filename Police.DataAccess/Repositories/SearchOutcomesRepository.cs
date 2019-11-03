@@ -19,15 +19,28 @@ namespace Police.DataAccess.Repositories
             this.context = context;
         }
 
-        public search_outcomes LookupCrimes()
+        public List<StreetCrimeResponse> LookupCrimes()
         {
             var context = this.context.GetDbContext();
 
             using (context)
             {
-                var query = context.search_outcomes.Where((s) => s.lat > 52.629 && s.lat < 52.63 && s.year == 2019).FirstOrDefault();
+                var query = context.search_outcomes.Where((s) => s.lat > 52.629 && s.lat < 52.63).ToList();
+                var count = query.Count();
+                List<StreetCrimeResponse> sc = new List<StreetCrimeResponse>();
+                foreach (var q in query)
+                {
+                    var crime = new StreetCrimeResponse
+                    {
+                        Id = q.crime_id,
+                        Lat = q.lat,
+                        Long = q._long,
+                        Count = count,
+                    };
+                    sc.Add(crime);
+                }
 
-                return query;
+                return sc;
             }
         }
     }
