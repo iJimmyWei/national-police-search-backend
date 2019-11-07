@@ -19,9 +19,9 @@ namespace Police.Logic.Services
             this._searchOutcomesRepository = searchOutcomesRepository;
         }
 
-        public List<StreetCrimeResponse> GetStreetCrimes()
+        public List<StreetCrimeResponse> GetStreetCrimes(double? lat, double? _long)
         {
-            var crimes = _searchOutcomesRepository.LookupCrimes();
+            var crimes = _searchOutcomesRepository.LookupCrimes(lat, _long);
 
             return crimes;
         }

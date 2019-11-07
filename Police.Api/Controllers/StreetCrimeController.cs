@@ -10,7 +10,7 @@ using Police.Model;
 namespace Police.Api.Controllers
 {
     [ApiController]
-    [Route("api")]
+    [Route("api/street-crimes")]
     public class StreetCrimeController : ControllerBase
     {
         private readonly ILogger<StreetCrimeController> _logger;
@@ -26,9 +26,12 @@ namespace Police.Api.Controllers
         }
 
         [HttpGet]
-        public List<StreetCrimeResponse> Get()
+        public List<StreetCrimeResponse> Get(
+           [FromQuery(Name = "lat")] double? lat,
+           [FromQuery(Name = "long")] double? _long
+        )
         {
-            var crime = _streetCrimeService.GetStreetCrimes();
+            var crime = _streetCrimeService.GetStreetCrimes(lat, _long);
 
             return crime;
         }
