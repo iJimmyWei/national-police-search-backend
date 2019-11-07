@@ -10,6 +10,10 @@ namespace Police.Model
 
         public double? Long { get; set; }
 
+        public int? CrimeTypeId { get; set; }
+
+        public int? LastOutcomeId { get; set; }
+
         public int Count { get; set; }
     }
 }
