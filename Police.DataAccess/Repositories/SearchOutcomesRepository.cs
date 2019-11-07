@@ -21,7 +21,7 @@ namespace Police.DataAccess.Repositories
             this.context = context;
         }
 
-        public List<StreetCrimeResponse> LookupCrimes(double? lat, double? _long, int? year)
+        public List<StreetCrimeResponse> LookupCrimes(double? lat, double? _long, int? year, int? month)
         {
             var context = this.context.GetDbContext();
             double mileToDegree = (double) 1 / 69; // Each degree of latitude/longitude approx. 69 miles
@@ -38,6 +38,12 @@ namespace Police.DataAccess.Repositories
                 {
                     Expression<Func<search_outcomes, bool>> yearFilter = s => s.year == year;
                     finalExpression = PredicateBuilder.And(finalExpression, yearFilter);
+                }
+
+                if (month != null)
+                {
+                    Expression<Func<search_outcomes, bool>> monthFilter = s => s.month == month;
+                    finalExpression = PredicateBuilder.And(finalExpression, monthFilter);
                 }
 
                 var query = context.search_outcomes.Where(finalExpression).ToList();
