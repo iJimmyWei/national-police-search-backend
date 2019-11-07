@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using LinqKit;
 using Police.Model;
 
 namespace Police.DataAccess.Repositories
@@ -19,7 +21,7 @@ namespace Police.DataAccess.Repositories
             this.context = context;
         }
 
-        public List<StreetCrimeResponse> LookupCrimes(double? lat, double? _long)
+        public List<StreetCrimeResponse> LookupCrimes(double? lat, double? _long, int? year)
         {
             var context = this.context.GetDbContext();
             double mileToDegree = (double) 1 / 69; // Each degree of latitude/longitude approx. 69 miles
@@ -28,10 +30,18 @@ namespace Police.DataAccess.Repositories
 
             using (context)
             {
-                var query = context.search_outcomes.Where((s) =>
-                   lat - latitudeRadius < s.lat && s.lat < lat + latitudeRadius &&
-                   _long - latitudeRadius < s._long && s._long < _long + latitudeRadius
-                ).ToList();
+                Expression<Func<search_outcomes, bool>> finalExpression = s =>
+                    lat - latitudeRadius < s.lat && s.lat < lat + latitudeRadius &&
+                    _long - latitudeRadius < s._long && s._long < _long + latitudeRadius;
+
+                if (year != null)
+                {
+                    Expression<Func<search_outcomes, bool>> yearFilter = s => s.year == year;
+                    finalExpression = PredicateBuilder.And(finalExpression, yearFilter);
+                }
+
+                var query = context.search_outcomes.Where(finalExpression).ToList();
+
                 var count = query.Count();
                 List<StreetCrimeResponse> sc = new List<StreetCrimeResponse>();
                 foreach (var q in query)

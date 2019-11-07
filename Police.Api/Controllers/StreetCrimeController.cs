@@ -28,10 +28,11 @@ namespace Police.Api.Controllers
         [HttpGet]
         public List<StreetCrimeResponse> Get(
            [FromQuery(Name = "lat")] double? lat,
-           [FromQuery(Name = "long")] double? _long
+           [FromQuery(Name = "long")] double? _long,
+           [FromQuery(Name = "year")] int? year
         )
         {
-            var crime = _streetCrimeService.GetStreetCrimes(lat, _long);
+            var crime = _streetCrimeService.GetStreetCrimes(lat, _long, year);
 
             return crime;
         }
